@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  portable:
+    name: Portable engine (Ubuntu)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: make test
+      - name: Configure CMake
+        run: cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
+      - name: CMake build and ctest
+        run: cmake --build build/cmake && ctest --test-dir build/cmake --output-on-failure
+
+  windows:
+    name: Windows app (MSVC)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+      - name: Build
+        run: cmake --build build --config Release
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
