@@ -323,7 +323,12 @@ void App::EnsureTargets() {
     D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_.put());
   }
   if (!dw_) {
-    DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), dw_.put_void());
+    IUnknown* unknown = nullptr;
+    if (SUCCEEDED(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), &unknown)) &&
+        unknown != nullptr) {
+      unknown->QueryInterface(__uuidof(IDWriteFactory), dw_.put_void());
+      unknown->Release();
+    }
   }
   if (!rt_ && d2d_ && hwnd_) {
     RECT rc{};

@@ -7,6 +7,7 @@
 #include <vector>
 
 #include <tdh.h>
+#include <evntcons.h>
 #include <evntrace.h>
 #include <objbase.h>
 
@@ -87,18 +88,12 @@ std::string NarrowProperty(const std::vector<BYTE>& buffer) {
 }
 
 std::uint16_t CpuIndex(const EVENT_RECORD* record) {
-  std::uint16_t cpu = record->BufferContext.ProcessorNumber;
-  if (record->ExtendedData == nullptr) return cpu;
-  for (USHORT i = 0; i < record->ExtendedDataCount; ++i) {
-    const EVENT_HEADER_EXTENDED_DATA_ITEM& item = record->ExtendedData[i];
-    if (item.ExtType == EVENT_HEADER_EXT_TYPE_PROCESSOR_INDEX && item.DataSize >= sizeof(std::uint16_t) &&
-        item.DataPtr != 0) {
-      std::uint16_t index = 0;
-      std::memcpy(&index, reinterpret_cast<const void*>(item.DataPtr), sizeof(index));
-      return index;
-    }
+  // The public flag selects BufferContext.ProcessorIndex. There is no
+  // EVENT_HEADER_EXT_TYPE_PROCESSOR_INDEX in the Windows SDK.
+  if ((record->EventHeader.Flags & EVENT_HEADER_FLAG_PROCESSOR_INDEX) != 0) {
+    return record->BufferContext.ProcessorIndex;
   }
-  return cpu;
+  return record->BufferContext.ProcessorNumber;
 }
 
 std::string GuidString(const GUID& guid) {

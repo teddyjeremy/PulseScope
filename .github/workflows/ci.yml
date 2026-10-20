@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   portable:
     name: Portable engine (Ubuntu)
@@ -19,8 +22,8 @@ jobs:
         run: cmake --build build/cmake && ctest --test-dir build/cmake --output-on-failure
       - name: CLI smoke
         run: |
-          ./build/pulsescope-cli version
-          ./build/pulsescope-cli analyze tests/fixtures/ready-wait.json --out-html "$RUNNER_TEMP/report.html"
+          ./build/cmake/pulsescope-cli version
+          ./build/cmake/pulsescope-cli analyze tests/fixtures/ready-wait.json --out-html "$RUNNER_TEMP/report.html"
 
   windows:
     # windows-latest is windows-2025-vs2026 and ships Visual Studio 2026 only.
@@ -30,6 +33,9 @@ jobs:
     # this tree is written against. See docs/build.md.
     name: Windows app (MSVC)
     runs-on: windows-2022
+    permissions:
+      contents: read
+      actions: write
     steps:
       - uses: actions/checkout@v4
       - name: Configure
@@ -49,3 +55,18 @@ jobs:
           }
           .\build\Release\pulsescope-cli.exe version
           .\build\Release\pulsescope-cli.exe analyze tests\fixtures\ready-wait.json --out-html "$env:RUNNER_TEMP\report.html"
+          @"
+PulseScope Windows x64
+Built on windows-2022 with Visual Studio 2022, dynamically linked to the MSVC runtime.
+Install the Microsoft Visual C++ Redistributable (x64) if either EXE refuses to start.
+CI linked these binaries and ran pulsescope-tests. It did not launch the GUI or start an ETW session.
+"@ | Set-Content -Encoding utf8 build\Release\README-artifact.txt
+      - name: Upload Windows binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: PulseScope-windows-x64
+          if-no-files-found: error
+          path: |
+            build/Release/PulseScope.exe
+            build/Release/pulsescope-cli.exe
+            build/Release/README-artifact.txt
