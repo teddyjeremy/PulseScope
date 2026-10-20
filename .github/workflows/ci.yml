@@ -60,6 +60,9 @@ Install the Microsoft Visual C++ Redistributable (x64) if either EXE refuses to 
 CI linked these binaries and ran pulsescope-tests. It did not launch the GUI or start an ETW session.
 "@ | Set-Content -Encoding utf8 build\Release\README-artifact.txt
       - name: Upload Windows binaries
+        # Download from the Actions run page: Artifacts → PulseScope-windows-x64.
+        # This is not a GitHub Release. The repo Actions setting must allow
+        # read and write workflow permissions or this step cannot store the EXE.
         uses: actions/upload-artifact@v4
         with:
           name: PulseScope-windows-x64
