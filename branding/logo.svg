@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" role="img" aria-label="PulseScope">
+  <rect x="8" y="12" width="72" height="72" rx="16" fill="#0E141B"/>
+  <rect x="8.5" y="12.5" width="71" height="71" rx="16" fill="none" stroke="#3DDC97" stroke-width="2"/>
+  <path d="M20 56 H30 L37 34 L44 64 L51 42 L58 56 H68" fill="none" stroke="#7AA2FF" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M54 26 V70" stroke="#E7B549" stroke-width="2"/>
+  <circle cx="51" cy="42" r="3.4" fill="#3DDC97"/>
+  <text x="100" y="62" fill="#E7EEF6" font-family="Segoe UI, DejaVu Sans, sans-serif" font-size="40" font-weight="650" letter-spacing="-1">PulseScope</text>
+</svg>

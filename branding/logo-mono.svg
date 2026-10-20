@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" role="img" aria-label="PulseScope monochrome">
+  <rect x="8" y="12" width="72" height="72" rx="16" fill="none" stroke="#111111" stroke-width="3"/>
+  <path d="M20 56 H30 L37 34 L44 64 L51 42 L58 56 H68" fill="none" stroke="#111111" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M54 26 V70" stroke="#111111" stroke-width="2"/>
+  <circle cx="51" cy="42" r="3.4" fill="#111111"/>
+  <text x="100" y="62" fill="#111111" font-family="Segoe UI, DejaVu Sans, sans-serif" font-size="40" font-weight="650" letter-spacing="-1">PulseScope</text>
+</svg>
