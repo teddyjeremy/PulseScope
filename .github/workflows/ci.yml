@@ -53,12 +53,13 @@ jobs:
           }
           .\build\Release\pulsescope-cli.exe version
           .\build\Release\pulsescope-cli.exe analyze tests\fixtures\ready-wait.json --out-html "$env:RUNNER_TEMP\report.html"
-          @"
-PulseScope Windows x64
-Built on windows-2022 with Visual Studio 2022, dynamically linked to the MSVC runtime.
-Install the Microsoft Visual C++ Redistributable (x64) if either EXE refuses to start.
-CI linked these binaries and ran pulsescope-tests. It did not launch the GUI or start an ETW session.
-"@ | Set-Content -Encoding utf8 build\Release\README-artifact.txt
+          $note = @(
+            'PulseScope Windows x64'
+            'Built on windows-2022 with Visual Studio 2022, dynamically linked to the MSVC runtime.'
+            'Install the Microsoft Visual C++ Redistributable (x64) if either EXE refuses to start.'
+            'CI linked these binaries and ran pulsescope-tests. It did not launch the GUI or start an ETW session.'
+          ) -join "`n"
+          Set-Content -Encoding utf8 -Path build\Release\README-artifact.txt -Value $note
       - name: Upload Windows binaries
         # Download from the Actions run page: Artifacts → PulseScope-windows-x64.
         # This is not a GitHub Release. The repo Actions setting must allow
