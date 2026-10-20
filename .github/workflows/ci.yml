@@ -17,15 +17,35 @@ jobs:
         run: cmake -S . -B build/cmake -DCMAKE_BUILD_TYPE=Release
       - name: CMake build and ctest
         run: cmake --build build/cmake && ctest --test-dir build/cmake --output-on-failure
+      - name: CLI smoke
+        run: |
+          ./build/pulsescope-cli version
+          ./build/pulsescope-cli analyze tests/fixtures/ready-wait.json --out-html "$RUNNER_TEMP/report.html"
 
   windows:
+    # windows-latest is windows-2025-vs2026 and ships Visual Studio 2026 only.
+    # CMake's "Visual Studio 17 2022" generator then fails with
+    # "could not find any instance of Visual Studio."
+    # windows-2022 still has Visual Studio 2022 (17.14) and the v143 toolset
+    # this tree is written against. See docs/build.md.
     name: Windows app (MSVC)
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
       - name: Configure
+        shell: pwsh
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
       - name: Build
+        shell: pwsh
         run: cmake --build build --config Release
       - name: Test
+        shell: pwsh
         run: ctest --test-dir build -C Release --output-on-failure
+      - name: Confirm the GUI linked
+        shell: pwsh
+        run: |
+          if (-not (Test-Path -LiteralPath build\Release\PulseScope.exe)) {
+            throw "PulseScope.exe was not produced. The Win32 target did not link."
+          }
+          .\build\Release\pulsescope-cli.exe version
+          .\build\Release\pulsescope-cli.exe analyze tests\fixtures\ready-wait.json --out-html "$env:RUNNER_TEMP\report.html"

@@ -30,6 +30,8 @@ build\Release\PulseScope.exe
 build\Release\pulsescope-cli.exe version
 ```
 
+That generator needs Visual Studio 2022 itself. GitHub-hosted `windows-latest` is the Visual Studio 2026 image and fails configure with `could not find any instance of Visual Studio`. The CI job in `.github/workflows/ci.yml` is pinned to `windows-2022` for that reason. Do not launch `PulseScope.exe` in the job; it is a GUI and would sit in its message loop.
+
 The GUI links `d2d1`, `dwrite`, `ole32`, `shell32`, `advapi32`, `tdh`, and `psapi`. It uses the system MSVC runtime (`/MD` is the CMake default for the Visual Studio generator). Install the matching [Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) on machines without Visual Studio.
 
 `src/win/pulsescope.rc` embeds `branding/pulsescope.ico` and `src/win/app.manifest`. The manifest sets `asInvoker` and Per-Monitor V2 DPI awareness.

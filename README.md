@@ -13,7 +13,7 @@ This repository does not invent measurements. Synthetic fixtures are labeled `sy
 | Portable analysis engine (timestamps, identity, CPU, memory, compare, timeline, export) | Built and tested with g++ 12, C++20. `make test` — 11/11 passed in the authoring environment. |
 | `pulsescope-cli` fixture analysis and benchmark | Ran on the same host. See [docs/benchmarks.md](docs/benchmarks.md). |
 | Win32 UI, ETW session, ETL import, live sampler | Source is in `src/win`. It was **not compiled here**. There is no MSVC toolchain or Windows SDK in the authoring environment, and there is no release EXE in this repository. |
-| GitHub Actions | `.github/workflows/ci.yml` builds the portable engine on Ubuntu and the Win32 app on `windows-latest`. Those Windows results are not claimed until a run is green. |
+| GitHub Actions | `.github/workflows/ci.yml` builds the portable engine on Ubuntu and the Win32 app on `windows-2022` (Visual Studio 2022). `windows-latest` is Visual Studio 2026 and does not provide the `Visual Studio 17 2022` generator. Windows results are not claimed until a run is green. |
 
 Minimum OS the Win32 shell is written for: **Windows 10 version 1809 (build 17763) x64** and Windows 11 x64.
 
