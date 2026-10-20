@@ -1,0 +1,18 @@
+{
+  "schema": "pulsescope.session.v1",
+  "synthetic": true,
+  "label": "ready-wait",
+  "cpuCount": 1,
+  "note": "Synthetic fixture. Not an ETW recording.",
+  "events": [
+    {"us": 0, "kind": "processStart", "pid": 0, "image": "Idle"},
+    {"us": 0, "kind": "processStart", "pid": 42, "image": "worker.exe"},
+    {"us": 0, "kind": "threadStart", "pid": 0, "tid": 1},
+    {"us": 0, "kind": "threadStart", "pid": 42, "tid": 7},
+    {"us": 0, "kind": "cswitch", "cpu": 0, "newTid": 7, "oldTid": 1},
+    {"us": 1000, "kind": "cswitch", "cpu": 0, "newTid": 1, "oldTid": 7},
+    {"us": 1500, "kind": "readyThread", "readyTid": 7, "pid": 42},
+    {"us": 1800, "kind": "cswitch", "cpu": 0, "newTid": 7, "oldTid": 1},
+    {"us": 2000, "kind": "cswitch", "cpu": 0, "newTid": 1, "oldTid": 7}
+  ]
+}
