@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 jobs:
   portable:
@@ -33,9 +34,6 @@ jobs:
     # this tree is written against. See docs/build.md.
     name: Windows app (MSVC)
     runs-on: windows-2022
-    permissions:
-      contents: read
-      actions: write
     steps:
       - uses: actions/checkout@v4
       - name: Configure
