@@ -1,0 +1,13 @@
+# Third-party notices
+
+PulseScope does not vendor third-party runtime libraries.
+
+| Component | Role | License | How it is obtained |
+| --- | --- | --- | --- |
+| C++ standard library | Language support | With the compiler | Visual Studio or GCC |
+| Windows SDK | ETW, TDH, Direct2D, DirectWrite, Toolhelp, PSAPI | Microsoft Windows SDK license | Installed with Visual Studio. Not redistributed. |
+| Visual C++ runtime | Required to launch the MSVC build | Microsoft | [VC++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) on machines without Visual Studio |
+
+Tests use the in-tree harness (`tests/harness.hpp`), not a fetched copy of GoogleTest.
+
+Branding in `branding/` was drawn for this project. It is not a third-party logo.
